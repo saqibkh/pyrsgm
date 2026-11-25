@@ -77,8 +77,9 @@ jobs:
             echo "::error::the run reported a device problem, a skipped test or a failure"; exit 1
           fi
           grep -q "100% tests passed, 0 tests failed out of 2" ../ctest.log
-          grep -q "^pyrsgm pyramid smoke test passed$" ../ctest.log
-          grep -q "^pyrsgm matcher test passed$" ../ctest.log
+          grep -qE "^1: pyrsgm pyramid smoke test passed$" ../ctest.log
+          grep -qE "^2: pyrsgm matcher test passed$" ../ctest.log
           launches=$(grep -c "\[vgpu\]\[counters\]" ../ctest.log)
+          grep "\[vgpu\]\[counters\]" ../ctest.log | head -n 3
           echo "kernel launch counter lines recorded by the simulator: $launches"
           test "$launches" -ge 2
