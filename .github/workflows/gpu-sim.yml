@@ -73,7 +73,7 @@ jobs:
           vgpu run --counters ctest --output-on-failure -V > ../ctest.log 2>&1 || { tail -n 100 ../ctest.log; exit 1; }
           grep -E "^pyrsgm |passed|Test +#|tests passed" ../ctest.log | grep -v counters
           grep -v "\[vgpu\]\[counters\]" ../ctest.log > ../ctest-nocounters.log
-          if grep -niE "VirtualGPU error|no device|no CUDA-capable|skipp|not run|FAIL" ../ctest-nocounters.log; then
+          if grep -niE "VirtualGPU error|no device|no CUDA-capable|skipp|not run|FAIL:|\*\*\*Failed|\*\*\*Exception" ../ctest-nocounters.log; then
             echo "::error::the run reported a device problem, a skipped test or a failure"; exit 1
           fi
           grep -q "100% tests passed, 0 tests failed out of 2" ../ctest.log
